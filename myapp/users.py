@@ -4,13 +4,13 @@ class Users:
     def createUsersTable(self):
         conn = sqlite3.connect('./data/bbdd.db')
         c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS Users (
-	                id_user    INTEGER PRIMARY KEY AUTOINCREMENT,
-	                user_name TEXT NOT NULL,
-	                password    TEXT NOT NULL,
-	                creation_date DATETIME NOW,
-                    modification_date DATETIME NOW)''')
-                    #al ponerlo con tres comillas simples, puedo escribir en strinfg en varias líneas sin necesidad de sumar cademas con  el signo +
+        c.execute('''CREATE TABLE IF NOT EXISTS USERS (
+	                ID_USER    INTEGER PRIMARY KEY AUTOINCREMENT,
+	                USER_NAME TEXT NOT NULL,
+	                PASSWORD    TEXT NOT NULL,
+	                CREATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    MODIFICATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP)''') #DEFAULT CURRENT_TIMESTAMP pone por defecto la fecha actual
+                    #al ponerlo con tres comillas simples, puedo escribir en string en varias líneas sin necesidad de sumar cademas con  el signo +
         conn.commit()
         c.close()
         conn.close()
@@ -18,7 +18,7 @@ class Users:
     def createUser(self, user_name, password):
         conn = sqlite3.connect('./data/bbdd.db')
         c = conn.cursor()
-        c.execute('INSERT INTO Users (user_name, password) VALUES (?, ?)')
+        c.execute('INSERT INTO USERS (USER_NAME, PASSWORD) VALUES (?, ?)', [user_name, password]) #en la tabla USERS, en las columnas USER_NAME y PASSWORD meto los valores ?? que me pasaran como argumento user_name y password
         conn.commit()
         c.close()
         conn.close()
