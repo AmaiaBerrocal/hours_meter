@@ -34,51 +34,38 @@ class Hours:
         conn = sqlite3.connect('../../data/bbdd.db')
         try:
             c = conn.cursor()
-            c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=? AND MONTH=? AND DAY=?', [user_id, year, month, day])
+            c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=? AND MONTH=? AND DAY=?',
+                      [user_id, year, month, day])
             rows = c.fetchall()
-            hour = None
-            if len(rows) > 0:
-                row = rows[0]
-                hour = Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-            return hour
+            results = []
+            for row in rows:
+                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+            return results
         finally:
             conn.close()
-'''
+
     def getHoursPerMonth(self, user_id, year, month):
         conn = sqlite3.connect('../../data/bbdd.db')
         try:
             c = conn.cursor()
             c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=? AND MONTH=?', [user_id, year, month])
             rows = c.fetchall()
-            hours = None
-            if len(rows) > 0:
-                row = rows[0]
-            hours = Hours(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-            return hours
+            results = []
+            for row in rows:
+                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+            return results
         finally:
             conn.close()
 
     def getHoursPerYear(self, user_id, year):
-            conn = sqlite3.connect('../../data/bbdd.db')
+        conn = sqlite3.connect('../../data/bbdd.db')
         try:
             c = conn.cursor()
             c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=?', [user_id, year])
             rows = c.fetchall()
-            hours = None
-            if len(rows) > 0:
-                row = rows[0]
-            hours = Hours(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-            return hours
+            results = []
+            for row in rows:
+                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+            return results
         finally:
             conn.close()
-'''
-
-hours = Hours()
-hours.createHoursTable()
-
-hours.insertHour(2, 2021, 6, 3, 3, 0)
-hours.insertHour(2, 2021, 6, 3, 8, 0)
-hours.insertHour(1, 2021, 6, 3, 5, 0)
-hours.insertHour(1, 2021, 6, 3, 8, 0)
-
-print("ee" + str(hours.getHoursPerDay(2, 2021, 6, 3)))

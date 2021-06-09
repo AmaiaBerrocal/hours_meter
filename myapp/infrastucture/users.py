@@ -40,10 +40,3 @@ class Users:
         finally:
             conn.close()
 
-
-
-users = Users()
-users.createUsersTable()# creas tabla
-users.createUser('Amaia', 'password')
-users.createUser('Amaia2', 'password2')# mete usuario en tabla
-
