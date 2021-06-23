@@ -11,61 +11,41 @@ class Hours:
             c.execute('''CREATE TABLE HOURS (
                             ID_HOURS INTEGER PRIMARY KEY AUTOINCREMENT,
                             ID_USER INTEGER REFERENCES USERS(ID_USER),
-                            YEAR INT NOT NULL,
-                            MONTH INT NOT NULL,
-                            DAY INT NOT NULL,
+                            DATE TEXT NOT NULL,
                             HOURS INT,
                             MINUTES INT,
                             CREATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP,
                             MODIFICATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP)''')
             conn.commit()
 
-    def insertHour(self, id_user, year, month, day, hours, minutes):
+    def insertHour(self, id_user, date, hours, minutes):
         conn = sqlite3.connect('../../data/bbdd.db')
         try:
             c = conn.cursor()
-            c.execute('INSERT INTO HOURS (ID_USER, YEAR, MONTH, DAY, HOURS, MINUTES) VALUES (?, ?, ?, ?, ?, ?)',
-                      [id_user, year, month, day, hours, minutes])
+            c.execute('INSERT INTO HOURS (ID_USER, DATE, HOURS, MINUTES) VALUES (?, ?, ?, ?)',
+                      [id_user, date, hours, minutes])
             conn.commit()
         finally:
             conn.close()
 
-    def getHoursPerDay(self, user_id, year, month, day):
+    def getHours(self, user_id, date_init, date_finish):
         conn = sqlite3.connect('../../data/bbdd.db')
         try:
             c = conn.cursor()
-            c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=? AND MONTH=? AND DAY=?',
-                      [user_id, year, month, day])
+            c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND DATE BETWEEN ? AND ?',
+                      [user_id, date_init, date_finish])
             rows = c.fetchall()
             results = []
             for row in rows:
-                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
             return results
         finally:
             conn.close()
 
-    def getHoursPerMonth(self, user_id, year, month):
-        conn = sqlite3.connect('../../data/bbdd.db')
-        try:
-            c = conn.cursor()
-            c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=? AND MONTH=?', [user_id, year, month])
-            rows = c.fetchall()
-            results = []
-            for row in rows:
-                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
-            return results
-        finally:
-            conn.close()
-
-    def getHoursPerYear(self, user_id, year):
-        conn = sqlite3.connect('../../data/bbdd.db')
-        try:
-            c = conn.cursor()
-            c.execute('SELECT * FROM HOURS WHERE ID_USER=? AND YEAR=?', [user_id, year])
-            rows = c.fetchall()
-            results = []
-            for row in rows:
-                results.append(Hour(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
-            return results
-        finally:
-            conn.close()
+h = Hours()
+h.createHoursTable()
+h.insertHour(1,"2021-03-01",3,0)
+h.insertHour(1,"2021-03-02",3,0)
+h.insertHour(1,"2021-03-03",3,0)
+h.insertHour(1,"2021-03-04",3,0)
+h.insertHour(1,"2021-03-05",3,0)

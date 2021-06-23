@@ -1,5 +1,4 @@
 import sqlite3
-
 from myapp.model.user import User
 
 
@@ -13,15 +12,16 @@ class Users:
                             USER_NAME TEXT NOT NULL UNIQUE,
                             PASSWORD    TEXT NOT NULL,
                             CREATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP,
-                            MODIFICATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP)''') #DEFAULT CURRENT_TIMESTAMP pone por defecto la fecha actual
-                            #al ponerlo con tres comillas simples, puedo escribir en string en varias líneas sin necesidad de sumar cademas con  el signo +
+                            MODIFICATION_DATE DATETIME DEFAULT CURRENT_TIMESTAMP)''')  # DEFAULT CURRENT_TIMESTAMP pone por defecto la fecha actual
+            # al ponerlo con tres comillas simples, puedo escribir en string en varias líneas sin necesidad de sumar cademas con  el signo +
             conn.commit()
 
     def createUser(self, user_name, password):
         conn = sqlite3.connect('../../data/bbdd.db')
         try:
             c = conn.cursor()
-            c.execute('INSERT INTO USERS (USER_NAME, PASSWORD) VALUES (?, ?)', [user_name, password]) #en la tabla USERS, en las columnas USER_NAME y PASSWORD meto los valores ?? que me pasaran como argumento user_name y password
+            c.execute('INSERT INTO USERS (USER_NAME, PASSWORD) VALUES (?, ?)', [user_name,
+                                                                                password])  # en la tabla USERS, en las columnas USER_NAME y PASSWORD meto los valores ?? que me pasaran como argumento user_name y password
             conn.commit()
         finally:
             conn.close()
@@ -40,3 +40,6 @@ class Users:
         finally:
             conn.close()
 
+u = Users()
+u.createUsersTable()
+u.createUser("amaia", "password")
