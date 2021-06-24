@@ -6,7 +6,7 @@ metodo execute
 3. si el par usuario contraseña no esta en bbdd responder con error UNAUTORIZED
 4. si todo bien devolver ID USUARIO
 '''
-from myapp.exceptions.exceptions import BadRequest, Unautorized
+from myapp.exceptions.exceptions import BadRequest, Unauthorized
 from myapp.infrastucture.users import Users
 
 
@@ -15,7 +15,7 @@ class Login:
         self.users = Users()
 
     def execute(self, user_name, password):
-        if ((user_name == None or user_name == "") or (password == None or password == "")):
+        if (user_name is None or user_name == "") or (password is None or password == ""):
             raise BadRequest
         user = self.users.retrieveUser(user_name, password)
         if user is None:
