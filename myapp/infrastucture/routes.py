@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import abort
 
 from myapp.application.login import Login
-from myapp.exceptions.exceptions import Unauthorized
+from myapp.exceptions.exceptions import Unauthorized, BadRequest
 
 app = Flask(__name__)
 
@@ -21,6 +21,8 @@ def login():
         return {"id_user": id_user}
     except Unauthorized:
         return abort(401)
+    except BadRequest:
+        return abort(400)
 
 
 if __name__ == '__main__':
