@@ -40,6 +40,8 @@ class Users:
         finally:
             conn.close()
 
+'''
 u = Users()
 u.createUsersTable()
 u.createUser("amaia", "password")
+'''

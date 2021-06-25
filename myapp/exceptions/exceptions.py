@@ -1,6 +1,3 @@
-
-
-
 class BadRequest(Exception):
     # nos mandan datos incorrectos (nulos, vacios, no validos)
     pass
